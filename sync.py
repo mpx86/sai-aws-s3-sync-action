@@ -23,14 +23,26 @@ args = ['aws s3 sync']
 # Checks
 
 # Check if the source directory is provided and is in the current workspace
+# if source and source != ".":
+#     if source not in os.listdir(os.environ['GITHUB_WORKSPACE']):
+#         print(f'Source "{source}" does not exist in the workspace. Please check and try again ...')
+#         print("Below are the available files/directories in the current workspace:")
+#         print(os.listdir(os.environ['GITHUB_WORKSPACE']))
+#         sys.exit(1)
+#     else:
+#         args.append(source)
+# else:
+#     args.append(".")
+
 if source and source != ".":
-    if source not in os.listdir(os.environ['GITHUB_WORKSPACE']):
+    source_path = os.path.join(os.environ['GITHUB_WORKSPACE'], source)
+    if not os.path.exists(source_path):
         print(f'Source "{source}" does not exist in the workspace. Please check and try again ...')
         print("Below are the available files/directories in the current workspace:")
         print(os.listdir(os.environ['GITHUB_WORKSPACE']))
         sys.exit(1)
     else:
-        args.append(source)
+        args.append(source_path)
 else:
     args.append(".")
 
